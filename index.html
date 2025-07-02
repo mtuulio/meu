@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Natalya Vilas Boas | Fotógrafa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="scripts.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">Natalya Vilas Boas</div>
+    <nav>
+      <ul>
+        <li><a href="#home">Início</a></li>
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#services">Serviços</a></li>
+        <li><a href="#testimonials">Depoimentos</a></li>
+        <li><a href="#workflow">Bastidores</a></li>
+        <li><a href="#awards">Prêmios</a></li>
+        <li><a href="#contact">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Sessão 1: Hero / Home -->
+  <section id="home" class="section hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="title">Capturando Momentos Inesquecíveis</h1>
+      <p class="subtitle">Fotografia artística por Natalya Vilas Boas</p>
+      <a href="#portfolio" class="btn">Ver Portfólio</a>
+    </div>
+  </section>
+
+  <!-- Sessão 2: Sobre -->
+  <section id="about" class="section light">
+    <div class="container">
+      <h2>Sobre Mim</h2>
+      <p>
+        Olá! Sou Natalya Vilas Boas, fotógrafa especializada em capturar a essência de pessoas e lugares. Minha paixão é transformar momentos fugazes em memórias eternas, com um toque artístico e contemporâneo.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sessão 3: Portfólio -->
+  <section id="portfolio" class="section dark">
+    <div class="container">
+      <h2>Portfólio</h2>
+      <div class="grid">
+        <img src="https://source.unsplash.com/random/600x800?portrait" alt="Portfolio" />
+        <img src="https://source.unsplash.com/random/601x800?nature" alt="Portfolio" />
+        <img src="https://source.unsplash.com/random/602x800?city" alt="Portfolio" />
+        <img src="https://source.unsplash.com/random/603x800?fashion" alt="Portfolio" />
+        <img src="https://source.unsplash.com/random/604x800?travel" alt="Portfolio" />
+        <img src="https://source.unsplash.com/random/605x800?couple" alt="Portfolio" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Sessão 4: Serviços -->
+  <section id="services" class="section light">
+    <div class="container">
+      <h2>Serviços</h2>
+      <ul class="services-list">
+        <li>Ensaios fotográficos individuais</li>
+        <li>Cobertura de eventos</li>
+        <li>Fotografia de casamento</li>
+        <li>Retratos corporativos</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Sessão 5: Depoimentos -->
+  <section id="testimonials" class="section dark">
+    <div class="container">
+      <h2>Depoimentos</h2>
+      <div class="testimonials">
+        <blockquote>
+          "Natalya capturou nosso casamento de forma impecável. Cada foto conta uma história!" — Ana & João
+        </blockquote>
+        <blockquote>
+          "Profissionalismo e sensibilidade ímpares!" — Carlos M.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sessão 6: Bastidores / Workflow -->
+  <section id="workflow" class="section light">
+    <div class="container">
+      <h2>Bastidores</h2>
+      <p>Descubra como transformo sua visão em fotografias memoráveis, desde o planejamento até a edição final.</p>
+    </div>
+  </section>
+
+  <!-- Sessão 7: Prêmios -->
+  <section id="awards" class="section dark">
+    <div class="container">
+      <h2>Prêmios</h2>
+      <p>Vencedora de múltiplos prêmios nacionais e internacionais de fotografia desde 2018.</p>
+    </div>
+  </section>
+
+  <!-- Sessão 8: Contato -->
+  <section id="contact" class="section light">
+    <div class="container">
+      <h2>Contato</h2>
+      <p>Entre em contato para solicitar um orçamento ou tirar dúvidas.</p>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Mensagem enviada!');">
+        <input type="text" placeholder="Nome" required />
+        <input type="email" placeholder="Email" required />
+        <textarea placeholder="Mensagem" required></textarea>
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Natalya Vilas Boas. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
