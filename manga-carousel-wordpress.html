@@ -1,0 +1,401 @@
+<!-- CÓDIGO PARA WIDGET HTML DO WORDPRESS/ELEMENTOR -->
+<div class="manga-carousel-container">
+    <!-- TÍTULO FIXO (não muda) -->
+    <h2 class="titulo-fixo">Os mais amados por vocês no Mangalove</h2>
+    
+    <div class="carousel-wrapper">
+        <!-- LADO ESQUERDO - INFORMAÇÕES DO MANGA (muda junto com a imagem) -->
+        <div class="manga-info">
+            <!-- CATEGORIA E STATUS (Manhua/Manhwa + Atualizando) -->
+            <div class="manga-badges">
+                <span class="badge-categoria" id="categoria">Manhua</span>
+                <span class="badge-status">Atualizando</span>
+            </div>
+            
+            <!-- TÍTULO DO MANGA -->
+            <h3 class="manga-titulo" id="manga-titulo">The Battle of Nations</h3>
+            
+            <!-- DESCRIÇÃO DO MANGA -->
+            <p class="manga-descricao" id="manga-descricao">
+                Sinopse Sinopse Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            
+            <!-- GÊNEROS/TAGS -->
+            <div class="manga-generos">
+                <span class="genero" id="genero1">Ação</span>
+                <span class="genero" id="genero2">Aventura</span>
+                <span class="genero" id="genero3">Suspense</span>
+            </div>
+            
+            <!-- NÚMERO DE CAPÍTULOS -->
+            <div class="manga-capitulos">
+                <span>Capítulos: <strong id="num-capitulos">20</strong></span>
+            </div>
+        </div>
+        
+        <!-- LADO DIREITO - CARROSSEL DE IMAGENS -->
+        <div class="manga-images">
+            <!-- IMAGEM PRINCIPAL ATIVA -->
+            <div class="image-container active" id="image-0">
+                <img src="https://i.ibb.co/cK8t0zs4/Capa-updats-Obra-006-Update-Pequena.jpg" alt="Manga 1">
+            </div>
+            
+            <!-- OUTRAS IMAGENS (ocultas inicialmente) -->
+            <div class="image-container" id="image-1">
+                <img src="https://i.ibb.co/pvGjqG5M/Capa-updats-copiar-Update-Pequena.jpg" alt="Manga 2">
+            </div>
+            
+            <div class="image-container" id="image-2">
+                <img src="https://i.ibb.co/6014NTSQ/Capa-updats-Update-Pequena.jpg" alt="Manga 3">
+            </div>
+            
+            <div class="image-container" id="image-3">
+                <img src="https://i.ibb.co/ycdWX63m/Capa-updats-Update-Pequena.jpg" alt="Manga 4">
+            </div>
+            
+            <!-- SETAS DE NAVEGAÇÃO -->
+            <button class="nav-arrow nav-left" onclick="anteriorManga()">‹</button>
+            <button class="nav-arrow nav-right" onclick="proximoManga()">›</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* === ESTILOS CSS === */
+.manga-carousel-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border-radius: 15px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* TÍTULO FIXO */
+.titulo-fixo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* CONTAINER PRINCIPAL DO CARROSSEL */
+.carousel-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+/* === LADO ESQUERDO - INFORMAÇÕES === */
+.manga-info {
+    flex: 1;
+    max-width: 500px;
+}
+
+/* BADGES (Categoria e Status) */
+.manga-badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.badge-categoria {
+    background: #ff6b35;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.badge-status {
+    background: #ff1744;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* TÍTULO DO MANGA */
+.manga-titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+/* DESCRIÇÃO */
+.manga-descricao {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #cccccc;
+    text-align: justify;
+}
+
+/* GÊNEROS */
+.manga-generos {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.genero {
+    background: #333;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    border: 2px solid #555;
+}
+
+/* CAPÍTULOS */
+.manga-capitulos {
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+/* === LADO DIREITO - IMAGENS === */
+.manga-images {
+    flex: 1;
+    position: relative;
+    height: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* CONTAINER DE CADA IMAGEM */
+.image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.image-container.active {
+    opacity: 1;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* SETAS DE NAVEGAÇÃO */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+    z-index: 10;
+}
+
+.nav-arrow:hover {
+    background: rgba(0,0,0,0.9);
+}
+
+.nav-left {
+    left: 15px;
+}
+
+.nav-right {
+    right: 15px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .carousel-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .titulo-fixo {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .manga-titulo {
+        font-size: 1.5rem;
+    }
+    
+    .manga-images {
+        height: 300px;
+    }
+}
+</style>
+
+<script>
+// === JAVASCRIPT - DADOS DOS MANGÁS ===
+// ⚡ IMPORTANTE: AQUI VOCÊ EDITA AS INFORMAÇÕES DE CADA MANGA ⚡
+
+const mangasData = [
+    {
+        // 🎯 MANGA 1 - EDITE AQUI
+        categoria: "Manhua",           // Altere: Manhua, Manhwa, Manga
+        titulo: "The Battle of Nations",
+        descricao: "Sinopse Sinopse Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        generos: ["Ação", "Aventura", "Suspense"],  // Máximo 3 gêneros
+        capitulos: 20
+    },
+    {
+        // 🎯 MANGA 2 - EDITE AQUI
+        categoria: "Manhwa",
+        titulo: "The City of Jackdaws",
+        descricao: "Uma história épica sobre uma cidade misteriosa onde corvos dominam os céus e segredos antigos aguardam para serem descobertos. Acompanhe a jornada de heróis corajosos em busca da verdade.",
+        generos: ["Mistério", "Fantasia", "Drama"],
+        capitulos: 35
+    },
+    {
+        // 🎯 MANGA 3 - EDITE AQUI
+        categoria: "Manga",
+        titulo: "Warriors of the Dawn",
+        descricao: "Em um mundo pós-apocalíptico, guerreiros lutam pela sobrevivência contra criaturas sombrias. Uma saga de coragem, amizade e sacrifício que irá emocionar você do início ao fim.",
+        generos: ["Ação", "Ficção Científica", "Guerra"],
+        capitulos: 42
+    },
+    {
+        // 🎯 MANGA 4 - EDITE AQUI
+        categoria: "Manhua",
+        titulo: "Legends of the Storm",
+        descricao: "Poderes elementais, batalhas épicas e uma profecia antiga que pode mudar o destino do mundo. Mergulhe em uma aventura cheia de magia, traição e redenção.",
+        generos: ["Fantasia", "Magia", "Aventura"],
+        capitulos: 28
+    }
+];
+
+// 🎨 CONFIGURAÇÕES DE COR POR CATEGORIA (pode alterar se quiser)
+const coresCategorias = {
+    'Manhua': '#ff6b35',    // Laranja
+    'Manhwa': '#4caf50',    // Verde
+    'Manga': '#2196f3'      // Azul
+};
+
+// ⏱️ CONFIGURAÇÃO DE TEMPO (em milissegundos)
+const tempoMudancaAutomatica = 5000; // 5 segundos (pode alterar)
+
+// === NÃO MEXER DAQUI PARA BAIXO (UNLESS YOU KNOW WHAT YOU'RE DOING) ===
+
+// VARIÁVEIS DE CONTROLE
+let mangaAtual = 0;
+let intervaloAutomatico;
+
+// FUNÇÃO PARA ATUALIZAR AS INFORMAÇÕES DO MANGA
+function atualizarInformacoes(indice) {
+    const manga = mangasData[indice];
+    
+    // Atualizar categoria
+    document.getElementById('categoria').textContent = manga.categoria;
+    
+    // Atualizar título
+    document.getElementById('manga-titulo').textContent = manga.titulo;
+    
+    // Atualizar descrição
+    document.getElementById('manga-descricao').textContent = manga.descricao;
+    
+    // Atualizar gêneros
+    document.getElementById('genero1').textContent = manga.generos[0] || '';
+    document.getElementById('genero2').textContent = manga.generos[1] || '';
+    document.getElementById('genero3').textContent = manga.generos[2] || '';
+    
+    // Atualizar capítulos
+    document.getElementById('num-capitulos').textContent = manga.capitulos;
+    
+    // Alterar cor da badge baseada na categoria
+    const badgeCategoria = document.getElementById('categoria');
+    badgeCategoria.style.background = coresCategorias[manga.categoria] || '#666';
+}
+
+// FUNÇÃO PARA MOSTRAR IMAGEM ESPECÍFICA
+function mostrarImagem(indice) {
+    // Esconder todas as imagens
+    const todasImagens = document.querySelectorAll('.image-container');
+    todasImagens.forEach(img => img.classList.remove('active'));
+    
+    // Mostrar imagem selecionada
+    document.getElementById(`image-${indice}`).classList.add('active');
+    
+    // Atualizar informações
+    atualizarInformacoes(indice);
+    
+    // Atualizar índice atual
+    mangaAtual = indice;
+}
+
+// FUNÇÃO PARA PRÓXIMO MANGA
+function proximoManga() {
+    const proximoIndice = (mangaAtual + 1) % mangasData.length;
+    mostrarImagem(proximoIndice);
+    reiniciarIntervalo();
+}
+
+// FUNÇÃO PARA MANGA ANTERIOR
+function anteriorManga() {
+    const anteriorIndice = mangaAtual === 0 ? mangasData.length - 1 : mangaAtual - 1;
+    mostrarImagem(anteriorIndice);
+    reiniciarIntervalo();
+}
+
+// FUNÇÃO PARA INICIAR MUDANÇA AUTOMÁTICA
+function iniciarIntervalo() {
+    intervaloAutomatico = setInterval(proximoManga, tempoMudancaAutomatica);
+}
+
+// FUNÇÃO PARA REINICIAR O INTERVALO
+function reiniciarIntervalo() {
+    clearInterval(intervaloAutomatico);
+    iniciarIntervalo();
+}
+
+// INICIALIZAR QUANDO A PÁGINA CARREGAR
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar primeiro manga
+    mostrarImagem(0);
+    
+    // Iniciar mudança automática
+    iniciarIntervalo();
+    
+    // Pausar quando mouse estiver sobre o carrossel
+    const container = document.querySelector('.manga-carousel-container');
+    if (container) {
+        container.addEventListener('mouseenter', () => clearInterval(intervaloAutomatico));
+        container.addEventListener('mouseleave', iniciarIntervalo);
+    }
+});
+
+// Caso já esteja carregado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarCarrossel);
+} else {
+    inicializarCarrossel();
+}
+
+function inicializarCarrossel() {
+    if (document.querySelector('.manga-carousel-container')) {
+        mostrarImagem(0);
+        iniciarIntervalo();
+        
+        const container = document.querySelector('.manga-carousel-container');
+        container.addEventListener('mouseenter', () => clearInterval(intervaloAutomatico));
+        container.addEventListener('mouseleave', iniciarIntervalo);
+    }
+}
+</script>
