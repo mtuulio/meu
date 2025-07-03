@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Visualização - Projeto de Tradução</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-list li {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .file-list a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+        .description {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #155724;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Projeto de Tradução - Espanhol → Português</h1>
+        
+        <div class="success">
+            <strong>✅ Arquivos prontos para visualização!</strong><br>
+            Clique nos links abaixo para ver cada página.
+        </div>
+
+        <h2>📄 Sites de Exemplo</h2>
+        <ul class="file-list">
+            <li>
+                <a href="exemplo_site_espanhol.html">Site em Espanhol (Original)</a>
+                <p class="description">Exemplo de um site completo em espanhol - demonstra o tipo de conteúdo que será traduzido</p>
+            </li>
+            <li>
+                <a href="exemplo_site_portugues.html">Site em Português (Traduzido)</a>
+                <p class="description">Versão traduzida do site acima - mostra o resultado final da tradução</p>
+            </li>
+        </ul>
+
+        <h2>📋 Documentação</h2>
+        <ul class="file-list">
+            <li>
+                <a href="INSTRUCOES_TRADUCAO.md">Instruções de Tradução</a>
+                <p class="description">Como enviar seu arquivo em espanhol para tradução</p>
+            </li>
+            <li>
+                <a href="RESUMO_PROJETO.md">Resumo do Projeto</a>
+                <p class="description">Visão geral do que foi criado e próximos passos</p>
+            </li>
+            <li>
+                <a href="COMO_VISUALIZAR.md">Como Visualizar</a>
+                <p class="description">Instruções para visualizar os arquivos no seu computador</p>
+            </li>
+        </ul>
+
+        <h2>🚗 Sistema de Estacionamento (PHP)</h2>
+        <div class="warning">
+            <strong>⚠️ Atenção:</strong> Os arquivos PHP abaixo precisam de um servidor web com PHP para funcionar corretamente. 
+            Para apenas visualizar o código, você pode abri-los em um editor de texto.
+        </div>
+        <ul class="file-list">
+            <li>
+                <a href="index.php">Página Principal</a>
+                <p class="description">Sistema de entrada/saída de veículos</p>
+            </li>
+            <li>
+                <a href="mensalistas.php">Gerenciar Mensalistas</a>
+                <p class="description">Controle de clientes mensalistas</p>
+            </li>
+            <li>
+                <a href="configuracoes.php">Configurações</a>
+                <p class="description">Configurações do sistema</p>
+            </li>
+        </ul>
+
+        <h2>🎯 Próximos Passos</h2>
+        <div style="background-color: #e8f4fd; padding: 20px; border-radius: 5px; margin-top: 20px;">
+            <h3 style="margin-top: 0;">Para traduzir seu site:</h3>
+            <ol>
+                <li>Copie seu arquivo em espanhol para esta pasta</li>
+                <li>Ou envie o conteúdo diretamente em uma mensagem</li>
+                <li>Receba o arquivo traduzido para português!</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <p style="color: #666;">Criado com 💙 para facilitar sua tradução</p>
+        </div>
+    </div>
+</body>
+</html>
