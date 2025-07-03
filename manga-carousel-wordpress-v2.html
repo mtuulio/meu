@@ -1,0 +1,630 @@
+<!-- CÓDIGO PARA WIDGET HTML DO WORDPRESS/ELEMENTOR - VERSÃO 2.0 -->
+<div class="manga-carousel-container-v2">
+    <!-- TÍTULO FIXO (não muda) -->
+    <h2 class="titulo-fixo-v2">Os mais amados por vocês no Mangalove</h2>
+    
+    <div class="carousel-wrapper-v2">
+        <!-- LADO ESQUERDO - INFORMAÇÕES DO MANGA -->
+        <div class="manga-info-v2">
+            <!-- CATEGORIA E STATUS -->
+            <div class="manga-badges-v2">
+                <span class="badge-categoria-v2" id="categoria-v2">Manhua</span>
+                <span class="badge-status-v2">Atualizando</span>
+            </div>
+            
+            <!-- TÍTULO DO MANGA -->
+            <h3 class="manga-titulo-v2" id="manga-titulo-v2">The Battle of Nations</h3>
+            
+            <!-- DESCRIÇÃO DO MANGA -->
+            <p class="manga-descricao-v2" id="manga-descricao-v2">
+                Sinopse Sinopse Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            
+            <!-- GÊNEROS/TAGS -->
+            <div class="manga-generos-v2">
+                <span class="genero-v2" id="genero1-v2">Ação</span>
+                <span class="genero-v2" id="genero2-v2">Aventura</span>
+                <span class="genero-v2" id="genero3-v2">Suspense</span>
+            </div>
+            
+            <!-- NÚMERO DE CAPÍTULOS -->
+            <div class="manga-capitulos-v2">
+                <span>Capítulos: <strong id="num-capitulos-v2">20</strong></span>
+            </div>
+        </div>
+        
+        <!-- LADO DIREITO - STACK DE CARDS -->
+        <div class="manga-stack-container">
+            <!-- SETAS DE NAVEGAÇÃO -->
+            <button class="nav-arrow-v2 nav-left-v2" onclick="anteriorMangaV2()">‹</button>
+            <button class="nav-arrow-v2 nav-right-v2" onclick="proximoMangaV2()">›</button>
+            
+            <!-- STACK DE CARDS -->
+            <div class="cards-stack">
+                <!-- CARD 1 - PRINCIPAL (ATIVO) -->
+                <div class="manga-card active-card" id="card-0" data-index="0">
+                    <img src="https://i.ibb.co/cK8t0zs4/Capa-updats-Obra-006-Update-Pequena.jpg" alt="Manga 1">
+                    <div class="card-overlay">
+                        <div class="card-info">
+                            <span class="card-badge-categoria" id="card-categoria-0">Manhua</span>
+                            <span class="card-badge-status">Atualizando</span>
+                        </div>
+                        <div class="card-title" id="card-titulo-0">The Battle of Nations</div>
+                        <div class="card-bottom">
+                            <span class="card-indicator">T01</span>
+                            <span class="card-indicator green">EP 01</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD 2 -->
+                <div class="manga-card back-card-1" id="card-1" data-index="1">
+                    <img src="https://i.ibb.co/pvGjqG5M/Capa-updats-copiar-Update-Pequena.jpg" alt="Manga 2">
+                    <div class="card-overlay">
+                        <div class="card-info">
+                            <span class="card-badge-categoria" id="card-categoria-1">Manhwa</span>
+                            <span class="card-badge-status">Atualizando</span>
+                        </div>
+                        <div class="card-title" id="card-titulo-1">The City of Jackdaws</div>
+                        <div class="card-bottom">
+                            <span class="card-indicator">T01</span>
+                            <span class="card-indicator green">EP 01</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD 3 -->
+                <div class="manga-card back-card-2" id="card-2" data-index="2">
+                    <img src="https://i.ibb.co/6014NTSQ/Capa-updats-Update-Pequena.jpg" alt="Manga 3">
+                    <div class="card-overlay">
+                        <div class="card-info">
+                            <span class="card-badge-categoria" id="card-categoria-2">Manga</span>
+                            <span class="card-badge-status">Atualizando</span>
+                        </div>
+                        <div class="card-title" id="card-titulo-2">Warriors of the Dawn</div>
+                        <div class="card-bottom">
+                            <span class="card-indicator">T01</span>
+                            <span class="card-indicator green">EP 01</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD 4 -->
+                <div class="manga-card back-card-3" id="card-3" data-index="3">
+                    <img src="https://i.ibb.co/ycdWX63m/Capa-updats-Update-Pequena.jpg" alt="Manga 4">
+                    <div class="card-overlay">
+                        <div class="card-info">
+                            <span class="card-badge-categoria" id="card-categoria-3">Manhua</span>
+                            <span class="card-badge-status">Atualizando</span>
+                        </div>
+                        <div class="card-title" id="card-titulo-3">Legends of the Storm</div>
+                        <div class="card-bottom">
+                            <span class="card-indicator">T01</span>
+                            <span class="card-indicator green">EP 01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* === ESTILOS CSS V2 - EFEITO STACK === */
+.manga-carousel-container-v2 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border-radius: 20px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+/* TÍTULO FIXO */
+.titulo-fixo-v2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
+
+/* CONTAINER PRINCIPAL */
+.carousel-wrapper-v2 {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    min-height: 500px;
+}
+
+/* === LADO ESQUERDO - INFORMAÇÕES === */
+.manga-info-v2 {
+    flex: 1;
+    max-width: 500px;
+    z-index: 10;
+}
+
+/* BADGES */
+.manga-badges-v2 {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.badge-categoria-v2 {
+    background: #ff6b35;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge-status-v2 {
+    background: #ff1744;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* TÍTULO DO MANGA */
+.manga-titulo-v2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* DESCRIÇÃO */
+.manga-descricao-v2 {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #cccccc;
+    text-align: justify;
+}
+
+/* GÊNEROS */
+.manga-generos-v2 {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.genero-v2 {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    border: 2px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* CAPÍTULOS */
+.manga-capitulos-v2 {
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* === LADO DIREITO - STACK DE CARDS === */
+.manga-stack-container {
+    flex: 1;
+    position: relative;
+    height: 500px;
+    perspective: 1000px;
+}
+
+.cards-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+/* CARDS INDIVIDUAIS */
+.manga-card {
+    position: absolute;
+    width: 320px;
+    height: 450px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform-origin: center center;
+}
+
+.manga-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+/* OVERLAY DOS CARDS */
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.3) 0%,
+        rgba(0,0,0,0.1) 40%,
+        rgba(0,0,0,0.8) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* POSIÇÕES DOS CARDS NO STACK */
+.manga-card.active-card {
+    transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg);
+    z-index: 4;
+}
+
+.manga-card.back-card-1 {
+    transform: translateX(40px) translateY(10px) translateZ(-50px) rotateY(-5deg);
+    z-index: 3;
+    opacity: 0.9;
+}
+
+.manga-card.back-card-2 {
+    transform: translateX(80px) translateY(20px) translateZ(-100px) rotateY(-10deg);
+    z-index: 2;
+    opacity: 0.7;
+}
+
+.manga-card.back-card-3 {
+    transform: translateX(120px) translateY(30px) translateZ(-150px) rotateY(-15deg);
+    z-index: 1;
+    opacity: 0.5;
+}
+
+/* HOVER NO CARD ATIVO */
+.manga-card.active-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+}
+
+.manga-card.active-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.manga-card.active-card:hover img {
+    transform: scale(1.05);
+}
+
+/* INFO DOS CARDS */
+.card-info {
+    display: flex;
+    gap: 10px;
+}
+
+.card-badge-categoria {
+    background: #ff6b35;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-badge-status {
+    background: #ff1744;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.card-bottom {
+    display: flex;
+    gap: 10px;
+}
+
+.card-indicator {
+    background: rgba(33, 150, 243, 0.9);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.card-indicator.green {
+    background: rgba(76, 175, 80, 0.9);
+}
+
+/* SETAS DE NAVEGAÇÃO */
+.nav-arrow-v2 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: none;
+    font-size: 2.5rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.nav-arrow-v2:hover {
+    background: rgba(255,107,53,0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-left-v2 {
+    left: -60px;
+}
+
+.nav-right-v2 {
+    right: -60px;
+}
+
+/* ANIMAÇÕES DE TRANSIÇÃO */
+.transitioning {
+    pointer-events: none;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .carousel-wrapper-v2 {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .titulo-fixo-v2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .manga-titulo-v2 {
+        font-size: 1.8rem;
+    }
+    
+    .manga-stack-container {
+        height: 400px;
+    }
+    
+    .manga-card {
+        width: 280px;
+        height: 380px;
+    }
+    
+    .nav-left-v2 {
+        left: -40px;
+    }
+    
+    .nav-right-v2 {
+        right: -40px;
+    }
+}
+</style>
+
+<script>
+// === JAVASCRIPT V2 - EFEITO STACK ===
+// ⚡ DADOS DOS MANGÁS - EDITE AQUI ⚡
+
+const mangasDataV2 = [
+    {
+        // 🎯 MANGA 1
+        categoria: "Manhua",
+        titulo: "The Battle of Nations",
+        descricao: "Sinopse Sinopse Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        generos: ["Ação", "Aventura", "Suspense"],
+        capitulos: 20
+    },
+    {
+        // 🎯 MANGA 2
+        categoria: "Manhwa",
+        titulo: "The City of Jackdaws",
+        descricao: "Uma história épica sobre uma cidade misteriosa onde corvos dominam os céus e segredos antigos aguardam para serem descobertos. Acompanhe a jornada de heróis corajosos em busca da verdade.",
+        generos: ["Mistério", "Fantasia", "Drama"],
+        capitulos: 35
+    },
+    {
+        // 🎯 MANGA 3
+        categoria: "Manga",
+        titulo: "Warriors of the Dawn",
+        descricao: "Em um mundo pós-apocalíptico, guerreiros lutam pela sobrevivência contra criaturas sombrias. Uma saga de coragem, amizade e sacrifício que irá emocionar você do início ao fim.",
+        generos: ["Ação", "Ficção Científica", "Guerra"],
+        capitulos: 42
+    },
+    {
+        // 🎯 MANGA 4
+        categoria: "Manhua",
+        titulo: "Legends of the Storm",
+        descricao: "Poderes elementais, batalhas épicas e uma profecia antiga que pode mudar o destino do mundo. Mergulhe em uma aventura cheia de magia, traição e redenção.",
+        generos: ["Fantasia", "Magia", "Aventura"],
+        capitulos: 28
+    }
+];
+
+// CONFIGURAÇÕES
+const coresCategoriasV2 = {
+    'Manhua': '#ff6b35',
+    'Manhwa': '#4caf50', 
+    'Manga': '#2196f3'
+};
+
+const tempoMudancaAutomaticaV2 = 6000; // 6 segundos
+
+// VARIÁVEIS DE CONTROLE
+let mangaAtualV2 = 0;
+let intervaloAutomaticoV2;
+let emTransicaoV2 = false;
+
+// FUNÇÃO PARA ATUALIZAR INFORMAÇÕES
+function atualizarInformacoesV2(indice) {
+    const manga = mangasDataV2[indice];
+    
+    // Atualizar informações do lado esquerdo
+    document.getElementById('categoria-v2').textContent = manga.categoria;
+    document.getElementById('manga-titulo-v2').textContent = manga.titulo;
+    document.getElementById('manga-descricao-v2').textContent = manga.descricao;
+    document.getElementById('genero1-v2').textContent = manga.generos[0] || '';
+    document.getElementById('genero2-v2').textContent = manga.generos[1] || '';
+    document.getElementById('genero3-v2').textContent = manga.generos[2] || '';
+    document.getElementById('num-capitulos-v2').textContent = manga.capitulos;
+    
+    // Atualizar cor da categoria
+    const badgeCategoria = document.getElementById('categoria-v2');
+    badgeCategoria.style.background = coresCategoriasV2[manga.categoria] || '#666';
+    
+    // Atualizar informações dos cards
+    mangasDataV2.forEach((mangaData, i) => {
+        const cardCategoria = document.getElementById(`card-categoria-${i}`);
+        const cardTitulo = document.getElementById(`card-titulo-${i}`);
+        if (cardCategoria) cardCategoria.style.background = coresCategoriasV2[mangaData.categoria] || '#666';
+    });
+}
+
+// FUNÇÃO PARA REORGANIZAR STACK
+function reorganizarStackV2(novoIndiceAtivo) {
+    if (emTransicaoV2) return;
+    
+    emTransicaoV2 = true;
+    const container = document.querySelector('.cards-stack');
+    container.classList.add('transitioning');
+    
+    // Remover todas as classes de posição
+    const allCards = document.querySelectorAll('.manga-card');
+    allCards.forEach(card => {
+        card.classList.remove('active-card', 'back-card-1', 'back-card-2', 'back-card-3');
+    });
+    
+    // Aplicar novas posições baseadas no índice ativo
+    for (let i = 0; i < mangasDataV2.length; i++) {
+        const card = document.getElementById(`card-${i}`);
+        const posicaoRelativa = (i - novoIndiceAtivo + mangasDataV2.length) % mangasDataV2.length;
+        
+        switch (posicaoRelativa) {
+            case 0:
+                card.classList.add('active-card');
+                break;
+            case 1:
+                card.classList.add('back-card-1');
+                break;
+            case 2:
+                card.classList.add('back-card-2');
+                break;
+            case 3:
+                card.classList.add('back-card-3');
+                break;
+        }
+    }
+    
+    // Atualizar informações
+    atualizarInformacoesV2(novoIndiceAtivo);
+    mangaAtualV2 = novoIndiceAtivo;
+    
+    // Remover flag de transição
+    setTimeout(() => {
+        emTransicaoV2 = false;
+        container.classList.remove('transitioning');
+    }, 600);
+}
+
+// FUNÇÃO PARA PRÓXIMO MANGA
+function proximoMangaV2() {
+    if (emTransicaoV2) return;
+    
+    const proximoIndice = (mangaAtualV2 + 1) % mangasDataV2.length;
+    reorganizarStackV2(proximoIndice);
+    reiniciarIntervaloV2();
+}
+
+// FUNÇÃO PARA MANGA ANTERIOR
+function anteriorMangaV2() {
+    if (emTransicaoV2) return;
+    
+    const anteriorIndice = mangaAtualV2 === 0 ? mangasDataV2.length - 1 : mangaAtualV2 - 1;
+    reorganizarStackV2(anteriorIndice);
+    reiniciarIntervaloV2();
+}
+
+// FUNÇÃO PARA INICIAR INTERVALO
+function iniciarIntervaloV2() {
+    intervaloAutomaticoV2 = setInterval(proximoMangaV2, tempoMudancaAutomaticaV2);
+}
+
+// FUNÇÃO PARA REINICIAR INTERVALO
+function reiniciarIntervaloV2() {
+    clearInterval(intervaloAutomaticoV2);
+    iniciarIntervaloV2();
+}
+
+// INICIALIZAÇÃO
+function inicializarCarrosselV2() {
+    const container = document.querySelector('.manga-carousel-container-v2');
+    if (!container) return;
+    
+    // Configurar estado inicial
+    reorganizarStackV2(0);
+    
+    // Iniciar mudança automática
+    iniciarIntervaloV2();
+    
+    // Eventos de hover
+    container.addEventListener('mouseenter', () => clearInterval(intervaloAutomaticoV2));
+    container.addEventListener('mouseleave', iniciarIntervaloV2);
+    
+    // Clique nos cards para navegar
+    const cards = document.querySelectorAll('.manga-card');
+    cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            if (!emTransicaoV2 && index !== mangaAtualV2) {
+                reorganizarStackV2(index);
+                reiniciarIntervaloV2();
+            }
+        });
+    });
+}
+
+// INICIALIZAR QUANDO PRONTO
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarCarrosselV2);
+} else {
+    inicializarCarrosselV2();
+}
+
+// Fallback para WordPress
+setTimeout(inicializarCarrosselV2, 1000);
+</script>
