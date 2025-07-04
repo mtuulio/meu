@@ -1,0 +1,163 @@
+{% extends 'screen/base.html' %}
+
+{% block title %}Screen Share - Transmitir{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Transmitir Tela</h1>
+    <p class="subtitle">
+        Compartilhe sua tela em tempo real
+        <span id="connection-status" class="status status-offline">Desconectado</span>
+    </p>
+</div>
+
+<div class="controls">
+    <button id="start-btn" class="btn" onclick="startStreaming()">
+        Iniciar Transmissão
+    </button>
+    <button id="stop-btn" class="btn btn-danger" onclick="stopStreaming()" style="display: none;">
+        Parar Transmissão
+    </button>
+    <a href="{% url 'index' %}" class="btn btn-secondary" style="margin-left: 10px;">
+        Voltar
+    </a>
+</div>
+
+<div class="info-box">
+    <h3>Status da Transmissão</h3>
+    <div class="stats">
+        <div>
+            <strong>Estado:</strong> <span id="stream-state">Inativo</span>
+        </div>
+        <div>
+            <strong>FPS:</strong> <span id="fps-counter">0</span>
+        </div>
+        <div>
+            <strong>Resolução:</strong> <span id="resolution">-</span>
+        </div>
+        <div>
+            <strong>Latência:</strong> <span id="latency">-</span> ms
+        </div>
+    </div>
+</div>
+
+<div class="screen-container">
+    <div class="no-stream" id="no-stream-message">
+        <h3>Transmissão não iniciada</h3>
+        <p style="margin-top: 10px;">Clique em "Iniciar Transmissão" para compartilhar sua tela</p>
+    </div>
+    <div id="stream-preview" style="display: none;">
+        <p style="text-align: center; color: #00d4ff;">Transmitindo...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let socket = null;
+    let isStreaming = false;
+    let frameCount = 0;
+    let lastFpsUpdate = Date.now();
+
+    function connectWebSocket() {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        socket = new WebSocket(`${protocol}//${window.location.host}/ws/screen/`);
+
+        socket.onopen = function(e) {
+            console.log('WebSocket conectado');
+            document.getElementById('connection-status').textContent = 'Conectado';
+            document.getElementById('connection-status').className = 'status status-online';
+        };
+
+        socket.onclose = function(e) {
+            console.log('WebSocket desconectado');
+            document.getElementById('connection-status').textContent = 'Desconectado';
+            document.getElementById('connection-status').className = 'status status-offline';
+            
+            if (isStreaming) {
+                stopStreaming();
+            }
+            
+            // Tentar reconectar após 3 segundos
+            setTimeout(connectWebSocket, 3000);
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket erro:', error);
+        };
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            // Host não precisa processar frames
+        };
+    }
+
+    function startStreaming() {
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert('WebSocket não está conectado. Aguarde...');
+            return;
+        }
+
+        isStreaming = true;
+        
+        socket.send(JSON.stringify({
+            'type': 'start_stream'
+        }));
+
+        document.getElementById('start-btn').style.display = 'none';
+        document.getElementById('stop-btn').style.display = 'inline-block';
+        document.getElementById('no-stream-message').style.display = 'none';
+        document.getElementById('stream-preview').style.display = 'block';
+        document.getElementById('stream-state').textContent = 'Transmitindo';
+        
+        // Iniciar contador de FPS
+        updateFPS();
+    }
+
+    function stopStreaming() {
+        isStreaming = false;
+        
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                'type': 'stop_stream'
+            }));
+        }
+
+        document.getElementById('start-btn').style.display = 'inline-block';
+        document.getElementById('stop-btn').style.display = 'none';
+        document.getElementById('no-stream-message').style.display = 'block';
+        document.getElementById('stream-preview').style.display = 'none';
+        document.getElementById('stream-state').textContent = 'Inativo';
+        document.getElementById('fps-counter').textContent = '0';
+    }
+
+    function updateFPS() {
+        if (!isStreaming) return;
+        
+        const now = Date.now();
+        const elapsed = now - lastFpsUpdate;
+        
+        if (elapsed >= 1000) {
+            const fps = Math.round(frameCount * 1000 / elapsed);
+            document.getElementById('fps-counter').textContent = fps;
+            frameCount = 0;
+            lastFpsUpdate = now;
+        }
+        
+        requestAnimationFrame(updateFPS);
+    }
+
+    // Conectar ao carregar a página
+    connectWebSocket();
+
+    // Desconectar ao sair da página
+    window.addEventListener('beforeunload', function() {
+        if (isStreaming) {
+            stopStreaming();
+        }
+        if (socket) {
+            socket.close();
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'screen/base.html' %}
+
+{% block title %}Screen Share - Assistir{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Assistir Transmissão</h1>
+    <p class="subtitle">
+        Visualizando tela compartilhada
+        <span id="connection-status" class="status status-offline">Desconectado</span>
+    </p>
+</div>
+
+<div class="controls">
+    <button id="connect-btn" class="btn" onclick="requestStream()">
+        Conectar à Transmissão
+    </button>
+    <a href="{% url 'index' %}" class="btn btn-secondary" style="margin-left: 10px;">
+        Voltar
+    </a>
+</div>
+
+<div class="info-box">
+    <h3>Informações da Transmissão</h3>
+    <div class="stats">
+        <div>
+            <strong>Estado:</strong> <span id="stream-state">Aguardando</span>
+        </div>
+        <div>
+            <strong>FPS:</strong> <span id="fps-counter">0</span>
+        </div>
+        <div>
+            <strong>Frames Recebidos:</strong> <span id="frame-counter">0</span>
+        </div>
+        <div>
+            <strong>Latência:</strong> <span id="latency">-</span> ms
+        </div>
+    </div>
+</div>
+
+<div class="screen-container">
+    <div class="no-stream" id="no-stream-message">
+        <h3>Nenhuma transmissão ativa</h3>
+        <p style="margin-top: 10px;">Clique em "Conectar à Transmissão" para começar a assistir</p>
+    </div>
+    <img id="screen-display" style="display: none;" alt="Tela compartilhada">
+    <div id="loading-message" style="display: none;">
+        <p style="text-align: center; color: #00d4ff;">
+            Conectando à transmissão
+            <span class="loading"></span>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let socket = null;
+    let isConnected = false;
+    let frameCount = 0;
+    let totalFrames = 0;
+    let lastFpsUpdate = Date.now();
+    let lastFrameTime = 0;
+
+    function connectWebSocket() {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        socket = new WebSocket(`${protocol}//${window.location.host}/ws/screen/`);
+
+        socket.onopen = function(e) {
+            console.log('WebSocket conectado');
+            document.getElementById('connection-status').textContent = 'Conectado';
+            document.getElementById('connection-status').className = 'status status-online';
+            isConnected = true;
+        };
+
+        socket.onclose = function(e) {
+            console.log('WebSocket desconectado');
+            document.getElementById('connection-status').textContent = 'Desconectado';
+            document.getElementById('connection-status').className = 'status status-offline';
+            isConnected = false;
+            
+            // Limpar tela
+            document.getElementById('screen-display').style.display = 'none';
+            document.getElementById('no-stream-message').style.display = 'block';
+            document.getElementById('loading-message').style.display = 'none';
+            document.getElementById('stream-state').textContent = 'Desconectado';
+            
+            // Tentar reconectar após 3 segundos
+            setTimeout(connectWebSocket, 3000);
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket erro:', error);
+        };
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            
+            if (data.type === 'frame') {
+                displayFrame(data.frame, data.timestamp);
+            } else if (data.type === 'stream_status') {
+                if (!data.is_streaming) {
+                    document.getElementById('no-stream-message').style.display = 'block';
+                    document.getElementById('screen-display').style.display = 'none';
+                    document.getElementById('loading-message').style.display = 'none';
+                    document.getElementById('stream-state').textContent = 'Sem transmissão';
+                }
+            }
+        };
+    }
+
+    function requestStream() {
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert('WebSocket não está conectado. Aguarde...');
+            return;
+        }
+
+        document.getElementById('loading-message').style.display = 'block';
+        document.getElementById('no-stream-message').style.display = 'none';
+        
+        socket.send(JSON.stringify({
+            'type': 'request_stream'
+        }));
+        
+        // Iniciar contador de FPS
+        updateFPS();
+    }
+
+    function displayFrame(frameData, timestamp) {
+        const img = document.getElementById('screen-display');
+        img.src = 'data:image/jpeg;base64,' + frameData;
+        
+        if (img.style.display === 'none') {
+            img.style.display = 'block';
+            document.getElementById('no-stream-message').style.display = 'none';
+            document.getElementById('loading-message').style.display = 'none';
+            document.getElementById('stream-state').textContent = 'Recebendo';
+        }
+        
+        frameCount++;
+        totalFrames++;
+        document.getElementById('frame-counter').textContent = totalFrames;
+        
+        // Calcular latência
+        if (timestamp) {
+            const latency = Date.now() - (timestamp * 1000);
+            document.getElementById('latency').textContent = Math.round(latency);
+        }
+        
+        lastFrameTime = Date.now();
+    }
+
+    function updateFPS() {
+        const now = Date.now();
+        const elapsed = now - lastFpsUpdate;
+        
+        if (elapsed >= 1000) {
+            const fps = Math.round(frameCount * 1000 / elapsed);
+            document.getElementById('fps-counter').textContent = fps;
+            frameCount = 0;
+            lastFpsUpdate = now;
+        }
+        
+        // Verificar se ainda está recebendo frames
+        if (now - lastFrameTime > 3000 && lastFrameTime > 0) {
+            document.getElementById('stream-state').textContent = 'Conexão perdida';
+        }
+        
+        requestAnimationFrame(updateFPS);
+    }
+
+    // Conectar ao carregar a página
+    connectWebSocket();
+
+    // Desconectar ao sair da página
+    window.addEventListener('beforeunload', function() {
+        if (socket) {
+            socket.close();
+        }
+    });
+</script>
+{% endblock %}

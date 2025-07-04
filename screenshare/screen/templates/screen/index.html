@@ -1,0 +1,42 @@
+{% extends 'screen/base.html' %}
+
+{% block title %}Screen Share - Início{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Screen Share</h1>
+    <p class="subtitle">Compartilhe sua tela em tempo real com baixa latência</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 800px; margin: 0 auto;">
+    <div class="info-box" style="text-align: center;">
+        <h2 style="margin-bottom: 20px; color: #00d4ff;">Compartilhar Tela</h2>
+        <p style="margin-bottom: 30px; color: #999;">
+            Transmita sua tela para outros usuários em tempo real
+        </p>
+        <a href="{% url 'host' %}" class="btn">
+            Iniciar Transmissão
+        </a>
+    </div>
+    
+    <div class="info-box" style="text-align: center;">
+        <h2 style="margin-bottom: 20px; color: #0099ff;">Assistir Transmissão</h2>
+        <p style="margin-bottom: 30px; color: #999;">
+            Assista à tela compartilhada por outro usuário
+        </p>
+        <a href="{% url 'viewer' %}" class="btn btn-secondary">
+            Assistir Tela
+        </a>
+    </div>
+</div>
+
+<div class="info-box" style="margin-top: 50px;">
+    <h3 style="margin-bottom: 15px;">Como funciona?</h3>
+    <ul style="list-style: none; line-height: 2;">
+        <li>✓ Transmissão em tempo real via WebSockets</li>
+        <li>✓ Baixa latência otimizada para melhor experiência</li>
+        <li>✓ Qualidade adaptativa baseada na conexão</li>
+        <li>✓ Suporte para múltiplos visualizadores simultâneos</li>
+    </ul>
+</div>
+{% endblock %}
