@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jesus e a Mulher Samaritana - E-book Ilustrado</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="ebook-container">
+        <!-- Capa do E-book -->
+        <div class="page cover-page" id="page-0">
+            <div class="cover-content">
+                <h1 class="main-title">Jesus e a Mulher Samaritana</h1>
+                <h2 class="subtitle">Uma História em Quadrinhos</h2>
+                <div class="bible-reference">João 4:1-42</div>
+                <div class="start-button" onclick="nextPage()">
+                    <span>Começar a Leitura</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 1: Jesus deixa a Judéia -->
+        <div class="page comic-page" id="page-1">
+            <div class="page-header">
+                <h3>Capítulo 1: A Jornada</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Precisamos partir da Judéia e ir para a Galileia."
+                            </div>
+                        </div>
+                        <div class="narration">
+                            Jesus soube que os fariseus tinham ouvido dizer que ele estava fazendo e batizando mais discípulos que João...
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character disciple">
+                            <div class="speech-bubble">
+                                "Mestre, o caminho mais direto é através de Samaria."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="narration">
+                            Era necessário que ele passasse por Samaria...
+                        </div>
+                        <div class="scene-description">
+                            [Ilustração: Jesus e seus discípulos caminhando por uma estrada empoeirada]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 2: Chegada ao poço de Jacó -->
+        <div class="page comic-page" id="page-2">
+            <div class="page-header">
+                <h3>Capítulo 2: O Poço de Jacó</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="scene-description">
+                            [Ilustração: Uma cidade ao fundo, um poço antigo em primeiro plano, o sol alto no céu]
+                        </div>
+                        <div class="narration">
+                            Chegou, pois, a uma cidade de Samaria, chamada Sicar, perto do campo que Jacó dera a seu filho José. Ali estava o poço de Jacó.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character jesus tired">
+                            <div class="thought-bubble">
+                                "Estou cansado da viagem..."
+                            </div>
+                        </div>
+                        <div class="narration">
+                            Jesus, cansado da viagem, assentou-se junto ao poço. Era cerca da hora sexta (meio-dia).
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character disciple">
+                            <div class="speech-bubble">
+                                "Mestre, vamos à cidade comprar comida."
+                            </div>
+                        </div>
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Vão. Eu aguardo aqui."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 3: A chegada da mulher samaritana -->
+        <div class="page comic-page" id="page-3">
+            <div class="page-header">
+                <h3>Capítulo 3: O Encontro</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="scene-description">
+                            [Ilustração: Uma mulher se aproximando do poço carregando um cântaro]
+                        </div>
+                        <div class="narration">
+                            Veio uma mulher de Samaria tirar água...
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Dá-me de beber."
+                            </div>
+                        </div>
+                        <div class="character samaritan-woman surprised">
+                            <div class="speech-bubble">
+                                "Como, sendo tu judeu, me pedes de beber a mim, que sou mulher samaritana?"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="narration info-box">
+                            (Porque os judeus não se comunicavam com os samaritanos.)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 4: A água viva -->
+        <div class="page comic-page" id="page-4">
+            <div class="page-header">
+                <h3>Capítulo 4: A Água Viva</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Se tu conhecesses o dom de Deus e quem é o que te diz: Dá-me de beber, tu lhe pedirias, e ele te daria água viva."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman confused">
+                            <div class="speech-bubble">
+                                "Senhor, tu não tens com que a tirar, e o poço é fundo..."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman">
+                            <div class="speech-bubble">
+                                "Donde, pois, tens a água viva? És tu maior do que o nosso pai Jacó?"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 5: A revelação sobre a água verdadeira -->
+        <div class="page comic-page" id="page-5">
+            <div class="page-header">
+                <h3>Capítulo 5: A Fonte da Vida</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Qualquer que beber desta água tornará a ter sede; mas aquele que beber da água que eu lhe der nunca terá sede..."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "A água que eu lhe der se fará nele uma fonte de água que salte para a vida eterna."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman excited">
+                            <div class="speech-bubble">
+                                "Senhor, dá-me dessa água, para que não mais tenha sede, e não venha aqui tirá-la!"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 6: A revelação pessoal -->
+        <div class="page comic-page" id="page-6">
+            <div class="page-header">
+                <h3>Capítulo 6: A Verdade Revelada</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Vai, chama o teu marido e vem cá."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman ashamed">
+                            <div class="speech-bubble">
+                                "Não tenho marido."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Disseste bem: Não tenho marido. Porque tiveste cinco maridos, e o que agora tens não é teu marido; isto disseste com verdade."
+                            </div>
+                        </div>
+                        <div class="character samaritan-woman amazed">
+                            <div class="speech-bubble">
+                                "Senhor, vejo que és profeta!"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 7: A discussão sobre adoração -->
+        <div class="page comic-page" id="page-7">
+            <div class="page-header">
+                <h3>Capítulo 7: A Verdadeira Adoração</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman">
+                            <div class="speech-bubble">
+                                "Nossos pais adoraram neste monte, e vós dizeis que é em Jerusalém o lugar onde se deve adorar."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Mulher, crê-me que a hora vem, quando nem neste monte nem em Jerusalém adorareis o Pai."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character jesus">
+                            <div class="speech-bubble">
+                                "Mas a hora vem, e agora é, em que os verdadeiros adoradores adorarão o Pai em espírito e em verdade."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 8: A revelação do Messias -->
+        <div class="page comic-page" id="page-8">
+            <div class="page-header">
+                <h3>Capítulo 8: O Messias Revelado</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman">
+                            <div class="speech-bubble">
+                                "Eu sei que o Messias (que se chama o Cristo) vem; quando ele vier, nos anunciará tudo."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel climax">
+                    <div class="panel-content">
+                        <div class="character jesus glowing">
+                            <div class="speech-bubble important">
+                                "Eu o sou, eu que falo contigo."
+                            </div>
+                        </div>
+                        <div class="character samaritan-woman shocked">
+                            <div class="thought-bubble">
+                                "Ele é o Messias!"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 9: O retorno dos discípulos -->
+        <div class="page comic-page" id="page-9">
+            <div class="page-header">
+                <h3>Capítulo 9: O Testemunho</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="narration">
+                            E nisto chegaram os seus discípulos, e maravilharam-se de que estivesse falando com uma mulher.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman running">
+                            <div class="speech-bubble">
+                                "Deixou o seu cântaro e foi à cidade..."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character samaritan-woman excited">
+                            <div class="speech-bubble">
+                                "Vinde, vede um homem que me disse tudo quanto tenho feito. Porventura não é este o Cristo?"
+                            </div>
+                        </div>
+                        <div class="scene-description">
+                            [Ilustração: A mulher falando animadamente com outras pessoas da cidade]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página 10: Conclusão -->
+        <div class="page comic-page" id="page-10">
+            <div class="page-header">
+                <h3>Capítulo 10: O Salvador do Mundo</h3>
+            </div>
+            <div class="comic-grid">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="narration">
+                            Saíram, pois, da cidade e foram ter com ele. E muitos dos samaritanos daquela cidade creram nele...
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel">
+                    <div class="panel-content">
+                        <div class="character crowd">
+                            <div class="speech-bubble">
+                                "Já não é pelo teu dito que nós cremos; porque nós mesmos o temos ouvido..."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel large-panel final">
+                    <div class="panel-content">
+                        <div class="character crowd">
+                            <div class="speech-bubble important">
+                                "E sabemos que este é verdadeiramente o Cristo, o Salvador do mundo."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página final -->
+        <div class="page final-page" id="page-final">
+            <div class="final-content">
+                <h2>Fim</h2>
+                <div class="bible-reference">João 4:1-42</div>
+                <p class="final-message">
+                    Jesus quebrou barreiras sociais e culturais para revelar-se como o Messias. 
+                    Sua água viva está disponível para todos que creem.
+                </p>
+                <div class="restart-button" onclick="goToPage(0)">
+                    <span>Ler Novamente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controles de navegação -->
+    <div class="navigation">
+        <button id="prev-btn" onclick="prevPage()">← Anterior</button>
+        <span id="page-counter">1 / 11</span>
+        <button id="next-btn" onclick="nextPage()">Próximo →</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

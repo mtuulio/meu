@@ -1,0 +1,40 @@
+COMO ABRIR O E-BOOK "JESUS E A MULHER SAMARITANA"
+==================================================
+
+MÉTODO 1 - MAIS SIMPLES:
+------------------------
+1. Clique duas vezes no arquivo "index.html"
+2. O e-book abrirá automaticamente no seu navegador
+3. Pronto! Comece a leitura clicando em "Começar a Leitura"
+
+MÉTODO 2 - SERVIDOR LOCAL (RECOMENDADO):
+---------------------------------------
+1. Abra o terminal/prompt de comando
+2. Navegue até esta pasta: cd ebook-joao4
+3. Execute: python -m http.server 8000
+4. Abra seu navegador e vá para: http://localhost:8000
+5. Comece a leitura!
+
+CONTROLES DE NAVEGAÇÃO:
+-----------------------
+• Setas ← → do teclado: Navegar entre páginas
+• Espaço: Próxima página  
+• Botões na tela: Anterior/Próximo
+• Celular: Deslize o dedo (swipe) para navegar
+• Ctrl + Scroll: Aumentar/diminuir zoom
+
+DICAS:
+------
+• O e-book funciona offline (sem internet)
+• Seu progresso é salvo automaticamente
+• Funciona em computador, tablet e celular
+• Para melhor experiência, use tela cheia (F11)
+
+PROBLEMAS?
+----------
+• Se alguma página não carregar, recarregue o navegador (F5)
+• Use navegadores atualizados (Chrome, Firefox, Safari, Edge)
+• Para suporte técnico, consulte o arquivo README.md
+
+Aproveite a leitura desta bela narrativa bíblica!
+==================================================
