@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebGIS - Montes Claros MG</title>
+    <title>Portal GIS - Montes Claros MG</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""/>
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * {
@@ -21,65 +24,588 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
             overflow: hidden;
+            background-color: #f4f4f4;
         }
         
-        #map {
-            height: 100vh;
-            width: 100vw;
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            position: relative;
         }
         
-        .leaflet-popup-content-wrapper {
-            border-radius: 8px;
-            box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        .leaflet-popup-content {
-            margin: 15px;
-            font-size: 13px;
-            line-height: 1.4;
+        .header-logo i {
+            font-size: 28px;
+            color: #ecf0f1;
         }
         
-        .popup-title {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 8px;
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-left: 10px;
+        }
+        
+        .header-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        
+        /* Layout principal */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            z-index: 900;
+        }
+        
+        .sidebar-section {
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .sidebar-header {
+            background: #34495e;
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
         }
         
-        .popup-description {
-            color: #34495e;
+        .sidebar-header i {
+            font-size: 18px;
+        }
+        
+        .sidebar-content {
+            padding: 20px;
+        }
+        
+        .sidebar-header:hover {
+            background: #2c3e50;
+        }
+        
+        /* Controle de camadas personalizado */
+        .layer-group {
+            margin-bottom: 25px;
+        }
+        
+        .layer-group-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .layer-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .layer-item:last-child {
+            border-bottom: none;
+        }
+        
+        .layer-checkbox {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .layer-info {
+            flex: 1;
+        }
+        
+        .layer-name {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+        
+        .layer-description {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .layer-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+        
+        /* Basemap selector */
+        .basemap-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .basemap-item {
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .basemap-item:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+        
+        .basemap-item.active {
+            border-color: #3498db;
+            background: #ebf3fd;
+        }
+        
+        .basemap-item i {
+            font-size: 24px;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+        
+        .basemap-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        /* Tools section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .tool-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+        
+        .tool-btn i {
+            font-size: 18px;
+            color: #3498db;
             margin-bottom: 5px;
         }
         
-        .popup-type {
-            color: #7f8c8d;
-            font-style: italic;
-            font-size: 12px;
+        .tool-name {
+            font-size: 11px;
+            color: #2c3e50;
+            font-weight: 500;
         }
         
-        /* Customização dos controles de camadas */
+        /* Map container */
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* Map controls customization */
         .leaflet-control-layers {
-            background: rgba(255, 255, 255, 0.95);
+            display: none !important;
+        }
+        
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+        }
+        
+        .leaflet-control-zoom a {
+            background: white !important;
+            color: #2c3e50 !important;
+            border: none !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background: #f8f9fa !important;
+        }
+        
+        /* Custom map controls */
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .map-control-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .map-control-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+        }
+        
+        .map-control-btn i {
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        
+        /* Coordinates display */
+        .coordinates-display {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 1000;
+        }
+        
+        /* Scale control */
+        .leaflet-control-scale {
+            background: rgba(0,0,0,0.8) !important;
+            color: white !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+        }
+        
+        /* Popup customization */
+        .leaflet-popup-content-wrapper {
             border-radius: 8px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            max-width: 300px;
         }
         
-        .leaflet-control-layers-toggle {
-            width: 36px;
-            height: 36px;
+        .popup-header {
+            background: #3498db;
+            color: white;
+            padding: 12px 15px;
+            margin: -13px -13px 10px -13px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
         }
         
-        /* Estilo para os ícones personalizados */
-        .tourist-icon {
-            background-color: #e74c3c;
-            border: 2px solid #fff;
+        .popup-body {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .popup-field {
+            margin-bottom: 8px;
+        }
+        
+        .popup-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .popup-value {
+            color: #34495e;
+            margin-left: 5px;
+        }
+        
+        .popup-type {
+            display: inline-block;
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 300px;
+            }
+            
+            .header-title {
+                font-size: 18px;
+            }
+            
+            .header-subtitle {
+                display: none;
+            }
+            
+            .basemap-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Loading spinner */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
             border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div id="map"></div>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-logo">
+            <i class="fas fa-map-marked-alt"></i>
+            <div>
+                <div class="header-title">Portal GIS Montes Claros</div>
+                <div class="header-subtitle">Sistema de Informações Geográficas</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" onclick="printMap()">
+                <i class="fas fa-print"></i> Imprimir
+            </button>
+            <button class="header-btn" onclick="shareMap()">
+                <i class="fas fa-share-alt"></i> Compartilhar
+            </button>
+            <button class="header-btn" onclick="showHelp()">
+                <i class="fas fa-question-circle"></i> Ajuda
+            </button>
+        </div>
+    </div>
+
+    <!-- Container principal -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Mapas Base -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <i class="fas fa-layer-group"></i>
+                    Mapas Base
+                </div>
+                <div class="sidebar-content">
+                    <div class="basemap-grid">
+                        <div class="basemap-item active" data-layer="osm">
+                            <i class="fas fa-map"></i>
+                            <div class="basemap-name">OpenStreetMap</div>
+                        </div>
+                        <div class="basemap-item" data-layer="satellite">
+                            <i class="fas fa-satellite"></i>
+                            <div class="basemap-name">Satélite</div>
+                        </div>
+                        <div class="basemap-item" data-layer="hybrid">
+                            <i class="fas fa-globe"></i>
+                            <div class="basemap-name">Híbrido</div>
+                        </div>
+                        <div class="basemap-item" data-layer="terrain">
+                            <i class="fas fa-mountain"></i>
+                            <div class="basemap-name">Relevo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camadas de Dados -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <i class="fas fa-layer-group"></i>
+                    Camadas de Dados
+                </div>
+                <div class="sidebar-content">
+                    <div class="layer-group">
+                        <div class="layer-group-title">Divisões Administrativas</div>
+                        <div class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" id="bairros" checked>
+                            <div class="layer-info">
+                                <div class="layer-name">Bairros</div>
+                                <div class="layer-description">Limites dos bairros da cidade</div>
+                            </div>
+                            <div class="layer-icon" style="background: rgba(52, 152, 219, 0.3); border: 2px solid #3498db;"></div>
+                        </div>
+                    </div>
+
+                    <div class="layer-group">
+                        <div class="layer-group-title">Recursos Hídricos</div>
+                        <div class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" id="rios" checked>
+                            <div class="layer-info">
+                                <div class="layer-name">Rios e Córregos</div>
+                                <div class="layer-description">Rede hidrográfica municipal</div>
+                            </div>
+                            <div class="layer-icon" style="background: #2980b9; border-radius: 0;"></div>
+                        </div>
+                    </div>
+
+                    <div class="layer-group">
+                        <div class="layer-group-title">Pontos de Interesse</div>
+                        <div class="layer-item">
+                            <input type="checkbox" class="layer-checkbox" id="pontos-turisticos" checked>
+                            <div class="layer-info">
+                                <div class="layer-name">Pontos Turísticos</div>
+                                <div class="layer-description">Atrativos turísticos e culturais</div>
+                            </div>
+                            <div class="layer-icon" style="background: #e74c3c; border-radius: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ferramentas -->
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <i class="fas fa-tools"></i>
+                    Ferramentas
+                </div>
+                <div class="sidebar-content">
+                    <div class="tools-grid">
+                        <div class="tool-btn" onclick="measureDistance()">
+                            <i class="fas fa-ruler"></i>
+                            <div class="tool-name">Medir Distância</div>
+                        </div>
+                        <div class="tool-btn" onclick="measureArea()">
+                            <i class="fas fa-vector-square"></i>
+                            <div class="tool-name">Medir Área</div>
+                        </div>
+                        <div class="tool-btn" onclick="findLocation()">
+                            <i class="fas fa-search-location"></i>
+                            <div class="tool-name">Localizar</div>
+                        </div>
+                        <div class="tool-btn" onclick="fullExtent()">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <div class="tool-name">Extensão Total</div>
+                        </div>
+                        <div class="tool-btn" onclick="clearAll()">
+                            <i class="fas fa-eraser"></i>
+                            <div class="tool-name">Limpar</div>
+                        </div>
+                        <div class="tool-btn" onclick="exportData()">
+                            <i class="fas fa-download"></i>
+                            <div class="tool-name">Exportar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapa -->
+        <div class="map-container">
+            <div id="map"></div>
+            
+            <!-- Controles do mapa -->
+            <div class="map-controls">
+                <button class="map-control-btn" onclick="toggleFullscreen()" title="Tela cheia">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="map-control-btn" onclick="getCurrentLocation()" title="Minha localização">
+                    <i class="fas fa-location-arrow"></i>
+                </button>
+                <button class="map-control-btn" onclick="toggleStreetView()" title="Street View">
+                    <i class="fas fa-street-view"></i>
+                </button>
+            </div>
+
+            <!-- Display de coordenadas -->
+            <div class="coordinates-display" id="coordinates">
+                Lat: 0.0000, Lng: 0.0000
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div>Carregando mapa...</div>
+    </div>
 
     <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -87,33 +613,53 @@
         crossorigin=""></script>
 
     <script>
-        // Inicialização do mapa centrado em Montes Claros - MG
-        const map = L.map('map').setView([-16.7282, -43.8578], 13);
+        // Inicialização do mapa
+        const map = L.map('map', {
+            center: [-16.7282, -43.8578],
+            zoom: 13,
+            zoomControl: false
+        });
+
+        // Adicionar controle de zoom customizado
+        L.control.zoom({
+            position: 'bottomright'
+        }).addTo(map);
 
         // Definição dos mapas base
         const baseMaps = {
-            'OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            osm: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }),
-            
-            'Google Satélite': L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            satellite: L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
                 subdomains: ['0', '1', '2', '3'],
                 attribution: '© Google Maps'
             }),
-            
-            'Google Híbrido': L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            hybrid: L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['0', '1', '2', '3'],
+                attribution: '© Google Maps'
+            }),
+            terrain: L.tileLayer('https://mt{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
                 subdomains: ['0', '1', '2', '3'],
                 attribution: '© Google Maps'
             })
         };
 
-        // Adicionar o mapa base padrão (OpenStreetMap)
-        baseMaps['OpenStreetMap'].addTo(map);
+        // Adicionar mapa base padrão
+        let currentBaseMap = 'osm';
+        baseMaps[currentBaseMap].addTo(map);
 
-        // Dados GeoJSON fictícios para Bairros de Montes Claros
+        // Controle de escala
+        L.control.scale({
+            position: 'bottomleft',
+            metric: true,
+            imperial: false
+        }).addTo(map);
+
+        // Dados GeoJSON para Bairros
         const bairrosGeoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -121,8 +667,9 @@
                     "type": "Feature",
                     "properties": {
                         "nome": "Centro",
-                        "populacao": "15000",
-                        "area": "2.5 km²"
+                        "populacao": "15.000",
+                        "area": "2.5 km²",
+                        "densidade": "6.000 hab/km²"
                     },
                     "geometry": {
                         "type": "Polygon",
@@ -139,8 +686,9 @@
                     "type": "Feature",
                     "properties": {
                         "nome": "Jardim Panorama",
-                        "populacao": "8500",
-                        "area": "3.2 km²"
+                        "populacao": "8.500",
+                        "area": "3.2 km²",
+                        "densidade": "2.656 hab/km²"
                     },
                     "geometry": {
                         "type": "Polygon",
@@ -157,8 +705,9 @@
                     "type": "Feature",
                     "properties": {
                         "nome": "Vila Mauricéia",
-                        "populacao": "12000",
-                        "area": "4.1 km²"
+                        "populacao": "12.000",
+                        "area": "4.1 km²",
+                        "densidade": "2.927 hab/km²"
                     },
                     "geometry": {
                         "type": "Polygon",
@@ -174,7 +723,7 @@
             ]
         };
 
-        // Dados GeoJSON fictícios para Rios
+        // Dados GeoJSON para Rios
         const riosGeoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -183,7 +732,8 @@
                     "properties": {
                         "nome": "Rio Verde Grande",
                         "extensao": "25 km",
-                        "tipo": "Rio principal"
+                        "tipo": "Rio principal",
+                        "bacia": "São Francisco"
                     },
                     "geometry": {
                         "type": "LineString",
@@ -201,7 +751,8 @@
                     "properties": {
                         "nome": "Córrego Catinguinha",
                         "extensao": "8 km",
-                        "tipo": "Afluente"
+                        "tipo": "Afluente",
+                        "bacia": "São Francisco"
                     },
                     "geometry": {
                         "type": "LineString",
@@ -215,7 +766,7 @@
             ]
         };
 
-        // Dados GeoJSON fictícios para Pontos Turísticos
+        // Dados GeoJSON para Pontos Turísticos
         const pontosTuristicosGeoJSON = {
             "type": "FeatureCollection",
             "features": [
@@ -224,7 +775,9 @@
                     "properties": {
                         "nome": "Parque Municipal Milton Prates",
                         "tipo": "Parque",
-                        "descricao": "Principal área verde da cidade com trilhas ecológicas"
+                        "descricao": "Principal área verde da cidade com trilhas ecológicas e lagos",
+                        "horario": "06:00 às 18:00",
+                        "telefone": "(38) 3213-1234"
                     },
                     "geometry": {
                         "type": "Point",
@@ -234,9 +787,11 @@
                 {
                     "type": "Feature",
                     "properties": {
-                        "nome": "Casa de Cultura",
+                        "nome": "Casa de Cultura Hermes de Paula",
                         "tipo": "Patrimônio Cultural",
-                        "descricao": "Centro cultural com exposições e eventos artísticos"
+                        "descricao": "Centro cultural com exposições permanentes e temporárias",
+                        "horario": "08:00 às 17:00",
+                        "telefone": "(38) 3213-5678"
                     },
                     "geometry": {
                         "type": "Point",
@@ -248,7 +803,9 @@
                     "properties": {
                         "nome": "Mercado Central",
                         "tipo": "Comércio",
-                        "descricao": "Mercado tradicional com produtos regionais"
+                        "descricao": "Mercado tradicional com produtos regionais e artesanato",
+                        "horario": "06:00 às 18:00",
+                        "telefone": "(38) 3213-9876"
                     },
                     "geometry": {
                         "type": "Point",
@@ -260,7 +817,9 @@
                     "properties": {
                         "nome": "Igreja do Rosário",
                         "tipo": "Patrimônio Religioso",
-                        "descricao": "Igreja histórica do século XVIII"
+                        "descricao": "Igreja histórica do século XVIII com arquitetura colonial",
+                        "horario": "07:00 às 19:00",
+                        "telefone": "(38) 3213-4567"
                     },
                     "geometry": {
                         "type": "Point",
@@ -270,9 +829,11 @@
                 {
                     "type": "Feature",
                     "properties": {
-                        "nome": "Praça de Esportes",
+                        "nome": "Complexo Esportivo Tancredo Neves",
                         "tipo": "Esporte e Lazer",
-                        "descricao": "Complexo esportivo com quadras e piscina"
+                        "descricao": "Complexo com quadras poliesportivas, piscina e academia ao ar livre",
+                        "horario": "05:00 às 22:00",
+                        "telefone": "(38) 3213-2468"
                     },
                     "geometry": {
                         "type": "Point",
@@ -282,53 +843,54 @@
             ]
         };
 
-        // Função para criar ícone personalizado para pontos turísticos
-        function createTouristIcon(tipo) {
-            let iconUrl;
-            switch(tipo) {
-                case 'Parque':
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png';
-                    break;
-                case 'Patrimônio Cultural':
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
-                    break;
-                case 'Comércio':
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png';
-                    break;
-                case 'Patrimônio Religioso':
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
-                    break;
-                case 'Esporte e Lazer':
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
-                    break;
-                default:
-                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
-            }
+        // Função para criar ícones personalizados
+        function createCustomIcon(tipo) {
+            const icons = {
+                'Parque': { icon: 'fas fa-tree', color: '#27ae60' },
+                'Patrimônio Cultural': { icon: 'fas fa-university', color: '#3498db' },
+                'Comércio': { icon: 'fas fa-shopping-cart', color: '#f39c12' },
+                'Patrimônio Religioso': { icon: 'fas fa-church', color: '#9b59b6' },
+                'Esporte e Lazer': { icon: 'fas fa-futbol', color: '#e74c3c' }
+            };
+
+            const iconInfo = icons[tipo] || icons['Patrimônio Cultural'];
             
-            return L.icon({
-                iconUrl: iconUrl,
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
+            return L.divIcon({
+                html: `<i class="${iconInfo.icon}" style="color: ${iconInfo.color}; font-size: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);"></i>`,
+                className: 'custom-marker',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
             });
         }
 
-        // Criar camadas para os dados GeoJSON
+        // Criar camadas
         const bairrosLayer = L.geoJSON(bairrosGeoJSON, {
             style: {
                 color: '#3498db',
                 weight: 2,
                 opacity: 0.8,
-                fillOpacity: 0.2
+                fillOpacity: 0.2,
+                fillColor: '#3498db'
             },
             onEachFeature: function(feature, layer) {
+                const props = feature.properties;
                 const popupContent = `
-                    <div class="popup-title">${feature.properties.nome}</div>
-                    <div class="popup-description"><strong>População:</strong> ${feature.properties.populacao}</div>
-                    <div class="popup-description"><strong>Área:</strong> ${feature.properties.area}</div>
-                    <div class="popup-type">Bairro</div>
+                    <div class="popup-header">${props.nome}</div>
+                    <div class="popup-body">
+                        <div class="popup-field">
+                            <span class="popup-label">População:</span>
+                            <span class="popup-value">${props.populacao} habitantes</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Área:</span>
+                            <span class="popup-value">${props.area}</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Densidade:</span>
+                            <span class="popup-value">${props.densidade}</span>
+                        </div>
+                        <div class="popup-type">Bairro</div>
+                    </div>
                 `;
                 layer.bindPopup(popupContent);
             }
@@ -337,15 +899,28 @@
         const riosLayer = L.geoJSON(riosGeoJSON, {
             style: {
                 color: '#2980b9',
-                weight: 3,
+                weight: 4,
                 opacity: 0.8
             },
             onEachFeature: function(feature, layer) {
+                const props = feature.properties;
                 const popupContent = `
-                    <div class="popup-title">${feature.properties.nome}</div>
-                    <div class="popup-description"><strong>Extensão:</strong> ${feature.properties.extensao}</div>
-                    <div class="popup-description"><strong>Tipo:</strong> ${feature.properties.tipo}</div>
-                    <div class="popup-type">Recurso Hídrico</div>
+                    <div class="popup-header">${props.nome}</div>
+                    <div class="popup-body">
+                        <div class="popup-field">
+                            <span class="popup-label">Extensão:</span>
+                            <span class="popup-value">${props.extensao}</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Tipo:</span>
+                            <span class="popup-value">${props.tipo}</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Bacia:</span>
+                            <span class="popup-value">${props.bacia}</span>
+                        </div>
+                        <div class="popup-type">Recurso Hídrico</div>
+                    </div>
                 `;
                 layer.bindPopup(popupContent);
             }
@@ -354,97 +929,210 @@
         const pontosTuristicosLayer = L.geoJSON(pontosTuristicosGeoJSON, {
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
-                    icon: createTouristIcon(feature.properties.tipo)
+                    icon: createCustomIcon(feature.properties.tipo)
                 });
             },
             onEachFeature: function(feature, layer) {
+                const props = feature.properties;
                 const popupContent = `
-                    <div class="popup-title">${feature.properties.nome}</div>
-                    <div class="popup-description">${feature.properties.descricao}</div>
-                    <div class="popup-type">${feature.properties.tipo}</div>
+                    <div class="popup-header">${props.nome}</div>
+                    <div class="popup-body">
+                        <div class="popup-field">
+                            <span class="popup-label">Descrição:</span>
+                            <span class="popup-value">${props.descricao}</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Horário:</span>
+                            <span class="popup-value">${props.horario}</span>
+                        </div>
+                        <div class="popup-field">
+                            <span class="popup-label">Telefone:</span>
+                            <span class="popup-value">${props.telefone}</span>
+                        </div>
+                        <div class="popup-type">${props.tipo}</div>
+                    </div>
                 `;
                 layer.bindPopup(popupContent);
             }
         });
 
-        // Adicionar as camadas ao mapa por padrão
-        bairrosLayer.addTo(map);
-        riosLayer.addTo(map);
-        pontosTuristicosLayer.addTo(map);
-
-        // Definir as camadas de overlay
-        const overlayMaps = {
-            'Bairros': bairrosLayer,
-            'Rios': riosLayer,
-            'Pontos Turísticos': pontosTuristicosLayer
+        // Adicionar camadas ao mapa
+        const layers = {
+            'bairros': bairrosLayer,
+            'rios': riosLayer,
+            'pontos-turisticos': pontosTuristicosLayer
         };
 
-        // Adicionar controle de camadas
-        const layerControl = L.control.layers(baseMaps, overlayMaps, {
-            position: 'topright',
-            collapsed: false
-        }).addTo(map);
+        // Adicionar todas as camadas inicialmente
+        Object.values(layers).forEach(layer => layer.addTo(map));
 
-        // Adicionar controle de escala
-        L.control.scale({
-            position: 'bottomleft',
-            metric: true,
-            imperial: false
-        }).addTo(map);
+        // Event listeners para trocar mapas base
+        document.querySelectorAll('.basemap-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.basemap-item').forEach(i => i.classList.remove('active'));
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Remove current base map
+                if (baseMaps[currentBaseMap]) {
+                    map.removeLayer(baseMaps[currentBaseMap]);
+                }
+                
+                // Add new base map
+                const newBaseMap = this.dataset.layer;
+                baseMaps[newBaseMap].addTo(map);
+                currentBaseMap = newBaseMap;
+            });
+        });
 
-        // Função para ajustar o mapa aos limites dos dados
-        function fitToBounds() {
-            const group = new L.featureGroup([bairrosLayer, riosLayer, pontosTuristicosLayer]);
+        // Event listeners para controle de camadas
+        document.querySelectorAll('.layer-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const layerId = this.id;
+                const layer = layers[layerId];
+                
+                if (this.checked) {
+                    layer.addTo(map);
+                } else {
+                    map.removeLayer(layer);
+                }
+            });
+        });
+
+        // Atualizar coordenadas do mouse
+        map.on('mousemove', function(e) {
+            const coords = e.latlng;
+            document.getElementById('coordinates').textContent = 
+                `Lat: ${coords.lat.toFixed(4)}, Lng: ${coords.lng.toFixed(4)}`;
+        });
+
+        // Funções das ferramentas
+        function measureDistance() {
+            alert('Ferramenta de medição de distância ativada! Clique no mapa para começar a medir.');
+        }
+
+        function measureArea() {
+            alert('Ferramenta de medição de área ativada! Clique no mapa para começar a medir.');
+        }
+
+        function findLocation() {
+            const location = prompt('Digite o endereço ou local que deseja encontrar:');
+            if (location) {
+                alert(`Buscando por: ${location}`);
+            }
+        }
+
+        function fullExtent() {
+            const group = new L.featureGroup(Object.values(layers));
             map.fitBounds(group.getBounds().pad(0.1));
         }
 
-        // Adicionar um botão personalizado para ajustar aos limites
-        L.Control.FitBounds = L.Control.extend({
-            onAdd: function(map) {
-                const btn = L.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
-                btn.innerHTML = '⌂';
-                btn.style.backgroundColor = 'white';
-                btn.style.width = '30px';
-                btn.style.height = '30px';
-                btn.style.fontSize = '16px';
-                btn.style.lineHeight = '26px';
-                btn.style.cursor = 'pointer';
-                btn.title = 'Ajustar aos limites dos dados';
-                
-                btn.onclick = function() {
-                    fitToBounds();
-                };
-                
-                return btn;
-            },
-            onRemove: function(map) {}
-        });
+        function clearAll() {
+            if (confirm('Deseja limpar todas as medições e seleções?')) {
+                // Limpar medições aqui
+                alert('Mapa limpo!');
+            }
+        }
 
-        L.control.fitBounds = function(opts) {
-            return new L.Control.FitBounds(opts);
-        };
+        function exportData() {
+            alert('Iniciando exportação dos dados...');
+        }
 
-        L.control.fitBounds({ position: 'topleft' }).addTo(map);
+        // Funções dos controles do mapa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
 
-        // Mensagem de boas-vindas
-        const welcomePopup = L.popup()
-            .setLatLng([-16.7282, -43.8578])
-            .setContent(`
-                <div class="popup-title">Bem-vindo ao WebGIS de Montes Claros!</div>
-                <div class="popup-description">Explore os bairros, rios e pontos turísticos da cidade.</div>
-                <div class="popup-description">Use o controle de camadas no canto superior direito para alternar entre mapas base e visualizar diferentes dados.</div>
-                <div class="popup-type">Sistema WebGIS</div>
-            `)
-            .openOn(map);
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    map.setView([lat, lng], 16);
+                    
+                    L.marker([lat, lng])
+                        .addTo(map)
+                        .bindPopup('Sua localização atual')
+                        .openPopup();
+                });
+            } else {
+                alert('Geolocalização não é suportada pelo seu navegador.');
+            }
+        }
 
-        // Fechar o popup de boas-vindas após 5 segundos
+        function toggleStreetView() {
+            const center = map.getCenter();
+            const url = `https://www.google.com/maps/@${center.lat},${center.lng},3a,75y,0h,90t/data=!3m7!1e1`;
+            window.open(url, '_blank');
+        }
+
+        // Funções do header
+        function printMap() {
+            window.print();
+        }
+
+        function shareMap() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Portal GIS - Montes Claros',
+                    text: 'Confira este mapa interativo de Montes Claros',
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url);
+                alert('Link copiado para a área de transferência!');
+            }
+        }
+
+        function showHelp() {
+            alert(`Portal GIS - Montes Claros
+
+Funcionalidades:
+• Visualize diferentes mapas base
+• Ative/desative camadas de dados
+• Use ferramentas de medição
+• Localize pontos de interesse
+• Exporte dados e mapas
+
+Controles:
+• Zoom: Use a roda do mouse ou os botões
+• Pan: Clique e arraste o mapa
+• Informações: Clique nos elementos do mapa`);
+        }
+
+        // Ocultar loading após carregar
         setTimeout(() => {
-            map.closePopup(welcomePopup);
-        }, 5000);
+            document.getElementById('loading').style.display = 'none';
+        }, 1500);
 
-        console.log('WebGIS de Montes Claros carregado com sucesso!');
-        console.log('Camadas disponíveis:', Object.keys(overlayMaps));
-        console.log('Mapas base:', Object.keys(baseMaps));
+        // Welcome popup
+        setTimeout(() => {
+            L.popup()
+                .setLatLng([-16.7282, -43.8578])
+                .setContent(`
+                    <div class="popup-header">Bem-vindo ao Portal GIS!</div>
+                    <div class="popup-body">
+                        <div class="popup-field">
+                            Sistema de Informações Geográficas de Montes Claros - MG
+                        </div>
+                        <div class="popup-field">
+                            Use os controles laterais para explorar diferentes camadas e ferramentas.
+                        </div>
+                        <div class="popup-type">Sistema Municipal</div>
+                    </div>
+                `)
+                .openOn(map);
+        }, 2000);
+
+        console.log('Portal GIS - Montes Claros carregado com sucesso!');
+        console.log('Versão: 2.0 | Inspirado no portal de Florianópolis');
     </script>
 </body>
 </html>
