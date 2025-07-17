@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS - Montes Claros MG</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+        }
+        
+        .leaflet-popup-content {
+            margin: 15px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .popup-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .popup-description {
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+        
+        .popup-type {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 12px;
+        }
+        
+        /* Customização dos controles de camadas */
+        .leaflet-control-layers {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+        }
+        
+        .leaflet-control-layers-toggle {
+            width: 36px;
+            height: 36px;
+        }
+        
+        /* Estilo para os ícones personalizados */
+        .tourist-icon {
+            background-color: #e74c3c;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+    <script>
+        // Inicialização do mapa centrado em Montes Claros - MG
+        const map = L.map('map').setView([-16.7282, -43.8578], 13);
+
+        // Definição dos mapas base
+        const baseMaps = {
+            'OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }),
+            
+            'Google Satélite': L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['0', '1', '2', '3'],
+                attribution: '© Google Maps'
+            }),
+            
+            'Google Híbrido': L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['0', '1', '2', '3'],
+                attribution: '© Google Maps'
+            })
+        };
+
+        // Adicionar o mapa base padrão (OpenStreetMap)
+        baseMaps['OpenStreetMap'].addTo(map);
+
+        // Dados GeoJSON fictícios para Bairros de Montes Claros
+        const bairrosGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Centro",
+                        "populacao": "15000",
+                        "area": "2.5 km²"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-43.8678, -16.7182],
+                            [-43.8578, -16.7182],
+                            [-43.8578, -16.7282],
+                            [-43.8678, -16.7282],
+                            [-43.8678, -16.7182]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Jardim Panorama",
+                        "populacao": "8500",
+                        "area": "3.2 km²"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-43.8478, -16.7082],
+                            [-43.8378, -16.7082],
+                            [-43.8378, -16.7182],
+                            [-43.8478, -16.7182],
+                            [-43.8478, -16.7082]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Vila Mauricéia",
+                        "populacao": "12000",
+                        "area": "4.1 km²"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-43.8778, -16.7382],
+                            [-43.8678, -16.7382],
+                            [-43.8678, -16.7482],
+                            [-43.8778, -16.7482],
+                            [-43.8778, -16.7382]
+                        ]]
+                    }
+                }
+            ]
+        };
+
+        // Dados GeoJSON fictícios para Rios
+        const riosGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Rio Verde Grande",
+                        "extensao": "25 km",
+                        "tipo": "Rio principal"
+                    },
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                            [-43.8978, -16.7082],
+                            [-43.8878, -16.7182],
+                            [-43.8778, -16.7282],
+                            [-43.8678, -16.7382],
+                            [-43.8578, -16.7482]
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Córrego Catinguinha",
+                        "extensao": "8 km",
+                        "tipo": "Afluente"
+                    },
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                            [-43.8478, -16.7182],
+                            [-43.8578, -16.7282],
+                            [-43.8678, -16.7382]
+                        ]
+                    }
+                }
+            ]
+        };
+
+        // Dados GeoJSON fictícios para Pontos Turísticos
+        const pontosTuristicosGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Parque Municipal Milton Prates",
+                        "tipo": "Parque",
+                        "descricao": "Principal área verde da cidade com trilhas ecológicas"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-43.8628, -16.7232]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Casa de Cultura",
+                        "tipo": "Patrimônio Cultural",
+                        "descricao": "Centro cultural com exposições e eventos artísticos"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-43.8578, -16.7282]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Mercado Central",
+                        "tipo": "Comércio",
+                        "descricao": "Mercado tradicional com produtos regionais"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-43.8558, -16.7252]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Igreja do Rosário",
+                        "tipo": "Patrimônio Religioso",
+                        "descricao": "Igreja histórica do século XVIII"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-43.8598, -16.7302]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "nome": "Praça de Esportes",
+                        "tipo": "Esporte e Lazer",
+                        "descricao": "Complexo esportivo com quadras e piscina"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-43.8428, -16.7132]
+                    }
+                }
+            ]
+        };
+
+        // Função para criar ícone personalizado para pontos turísticos
+        function createTouristIcon(tipo) {
+            let iconUrl;
+            switch(tipo) {
+                case 'Parque':
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png';
+                    break;
+                case 'Patrimônio Cultural':
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+                    break;
+                case 'Comércio':
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png';
+                    break;
+                case 'Patrimônio Religioso':
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
+                    break;
+                case 'Esporte e Lazer':
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
+                    break;
+                default:
+                    iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+            }
+            
+            return L.icon({
+                iconUrl: iconUrl,
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+        }
+
+        // Criar camadas para os dados GeoJSON
+        const bairrosLayer = L.geoJSON(bairrosGeoJSON, {
+            style: {
+                color: '#3498db',
+                weight: 2,
+                opacity: 0.8,
+                fillOpacity: 0.2
+            },
+            onEachFeature: function(feature, layer) {
+                const popupContent = `
+                    <div class="popup-title">${feature.properties.nome}</div>
+                    <div class="popup-description"><strong>População:</strong> ${feature.properties.populacao}</div>
+                    <div class="popup-description"><strong>Área:</strong> ${feature.properties.area}</div>
+                    <div class="popup-type">Bairro</div>
+                `;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        const riosLayer = L.geoJSON(riosGeoJSON, {
+            style: {
+                color: '#2980b9',
+                weight: 3,
+                opacity: 0.8
+            },
+            onEachFeature: function(feature, layer) {
+                const popupContent = `
+                    <div class="popup-title">${feature.properties.nome}</div>
+                    <div class="popup-description"><strong>Extensão:</strong> ${feature.properties.extensao}</div>
+                    <div class="popup-description"><strong>Tipo:</strong> ${feature.properties.tipo}</div>
+                    <div class="popup-type">Recurso Hídrico</div>
+                `;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        const pontosTuristicosLayer = L.geoJSON(pontosTuristicosGeoJSON, {
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: createTouristIcon(feature.properties.tipo)
+                });
+            },
+            onEachFeature: function(feature, layer) {
+                const popupContent = `
+                    <div class="popup-title">${feature.properties.nome}</div>
+                    <div class="popup-description">${feature.properties.descricao}</div>
+                    <div class="popup-type">${feature.properties.tipo}</div>
+                `;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        // Adicionar as camadas ao mapa por padrão
+        bairrosLayer.addTo(map);
+        riosLayer.addTo(map);
+        pontosTuristicosLayer.addTo(map);
+
+        // Definir as camadas de overlay
+        const overlayMaps = {
+            'Bairros': bairrosLayer,
+            'Rios': riosLayer,
+            'Pontos Turísticos': pontosTuristicosLayer
+        };
+
+        // Adicionar controle de camadas
+        const layerControl = L.control.layers(baseMaps, overlayMaps, {
+            position: 'topright',
+            collapsed: false
+        }).addTo(map);
+
+        // Adicionar controle de escala
+        L.control.scale({
+            position: 'bottomleft',
+            metric: true,
+            imperial: false
+        }).addTo(map);
+
+        // Função para ajustar o mapa aos limites dos dados
+        function fitToBounds() {
+            const group = new L.featureGroup([bairrosLayer, riosLayer, pontosTuristicosLayer]);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+
+        // Adicionar um botão personalizado para ajustar aos limites
+        L.Control.FitBounds = L.Control.extend({
+            onAdd: function(map) {
+                const btn = L.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
+                btn.innerHTML = '⌂';
+                btn.style.backgroundColor = 'white';
+                btn.style.width = '30px';
+                btn.style.height = '30px';
+                btn.style.fontSize = '16px';
+                btn.style.lineHeight = '26px';
+                btn.style.cursor = 'pointer';
+                btn.title = 'Ajustar aos limites dos dados';
+                
+                btn.onclick = function() {
+                    fitToBounds();
+                };
+                
+                return btn;
+            },
+            onRemove: function(map) {}
+        });
+
+        L.control.fitBounds = function(opts) {
+            return new L.Control.FitBounds(opts);
+        };
+
+        L.control.fitBounds({ position: 'topleft' }).addTo(map);
+
+        // Mensagem de boas-vindas
+        const welcomePopup = L.popup()
+            .setLatLng([-16.7282, -43.8578])
+            .setContent(`
+                <div class="popup-title">Bem-vindo ao WebGIS de Montes Claros!</div>
+                <div class="popup-description">Explore os bairros, rios e pontos turísticos da cidade.</div>
+                <div class="popup-description">Use o controle de camadas no canto superior direito para alternar entre mapas base e visualizar diferentes dados.</div>
+                <div class="popup-type">Sistema WebGIS</div>
+            `)
+            .openOn(map);
+
+        // Fechar o popup de boas-vindas após 5 segundos
+        setTimeout(() => {
+            map.closePopup(welcomePopup);
+        }, 5000);
+
+        console.log('WebGIS de Montes Claros carregado com sucesso!');
+        console.log('Camadas disponíveis:', Object.keys(overlayMaps));
+        console.log('Mapas base:', Object.keys(baseMaps));
+    </script>
+</body>
+</html>
